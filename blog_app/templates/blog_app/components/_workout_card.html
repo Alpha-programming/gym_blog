@@ -1,0 +1,13 @@
+<div class="card mb-4 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">💪 Workout Plan</h5>
+    <p class="card-text"><strong>Member:</strong> {{ workout.member.user.get_full_name }}</p>
+    <p class="card-text"><strong>Date:</strong> {{ workout.date }}</p>
+    <p class="card-text"><strong>Description:</strong><br>{{ workout.description|linebreaks }}</p>
+  </div>
+
+
+  <div class="card-body text-end">
+    <a href="{% url 'workout_detail' workout.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+  </div>
+</div>

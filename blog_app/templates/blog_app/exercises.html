@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Exercise Log | GymMaster{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">📈 Exercise Log</h1>
+
+  {% if exercises %}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Member</th>
+            <th>Activity</th>
+            <th>Distance (km)</th>
+            <th>Weight (kg)</th>
+            <th>Reps</th>
+            <th>Duration (min)</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for exercise in exercises %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ exercise.member.user.get_full_name }}</td>
+            <td>{{ exercise.activity_type }}</td>
+            <td>{{ exercise.distance_km|default:"-" }}</td>
+            <td>{{ exercise.weight_kg|default:"-" }}</td>
+            <td>{{ exercise.reps|default:"-" }}</td>
+            <td>{{ exercise.duration_minutes|default:"-" }}</td>
+            <td>{{ exercise.date|date:"Y-m-d H:i" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">No exercise logs found.</p>
+  {% endif %}
+  <a href="{% url 'create_exercise' workout.id %}" class="btn btn-primary mb-3">+ Add Exercise</a>
+  <a href="{% url 'suggested_exercises'%}" class="btn btn-secondary mb-3">Suggested Exercises</a>
+</div>
+{% endblock %}

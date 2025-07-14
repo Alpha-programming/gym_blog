@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Create Food Plan{% endblock %}
+
+{% block content %}
+<h2>Create Food Plan</h2>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Save</button>
+  <a href="{% url 'foodlog' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

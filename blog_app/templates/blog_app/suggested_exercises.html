@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Suggested Exercises{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">💪 Suggested Exercises</h2>
+
+    <div class="row g-3">
+        <!-- Muscle -->
+        <div class="col-md-4">
+            <label for="muscle-select" class="form-label">Muscle Group</label>
+            <select id="muscle-select" class="form-select">
+                <option value="">-- Choose --</option>
+                {% for muscle in muscles %}
+                <option value="{{ muscle }}">{{ muscle|capfirst }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Type -->
+        <div class="col-md-4">
+            <label for="type-select" class="form-label">Exercise Type</label>
+            <select id="type-select" class="form-select">
+                <option value="">-- Choose --</option>
+                <option value="cardio">Cardio</option>
+                <option value="olympic_weightlifting">Olympic Weightlifting</option>
+                <option value="plyometrics">Plyometrics</option>
+                <option value="powerlifting">Powerlifting</option>
+                <option value="strength">Strength</option>
+                <option value="stretching">Stretching</option>
+                <option value="strongman">Strongman</option>
+            </select>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="col-md-4">
+            <label for="difficulty-select" class="form-label">Difficulty</label>
+            <select id="difficulty-select" class="form-select">
+                <option value="">-- Choose --</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button id="filter-btn" class="btn btn-primary">🔍 Filter Exercises</button>
+    </div>
+
+    <hr class="my-4">
+
+    <div id="exercise-results" class="row row-cols-1 row-cols-md-2 g-4 mt-3"></div>
+</div>
+
+<script>
+document.getElementById('filter-btn').addEventListener('click', function () {
+    const muscle = document.getElementById('muscle-select').value;
+    const type = document.getElementById('type-select').value;
+    const difficulty = document.getElementById('difficulty-select').value;
+    const resultsDiv = document.getElementById('exercise-results');
+    resultsDiv.innerHTML = '<p>Loading...</p>';
+
+    const params = new URLSearchParams();
+    if (muscle) params.append('muscle', muscle);
+    if (type) params.append('type', type);
+    if (difficulty) params.append('difficulty', difficulty);
+
+    fetch(`/workouts/exercises/suggested/fetch?${params}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                resultsDiv.innerHTML = `<p class="text-danger">${data.error}</p>`;
+                return;
+            }
+            resultsDiv.innerHTML = '';
+            if (data.length === 0) {
+                resultsDiv.innerHTML = '<p>No exercises found.</p>';
+                return;
+            }
+            data.forEach(ex => {
+                resultsDiv.innerHTML += `
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">${ex.name}</h5>
+                                <p class="card-text"><strong>Type:</strong> ${ex.type}</p>
+                                <p class="card-text"><strong>Difficulty:</strong> ${ex.difficulty}</p>
+                                <p class="card-text"><strong>Instructions:</strong> ${ex.instructions}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            resultsDiv.innerHTML = '<p class="text-danger">An error occurred.</p>';
+        });
+});
+</script>
+{% endblock %}
+
+

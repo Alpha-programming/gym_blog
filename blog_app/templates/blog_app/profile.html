@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile | GymMaster
+{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-group">
+            <li class="list-group-item">First Name: <strong>{{ request.user.first_name }}</strong></li>
+            <li class="list-group-item">Username: <strong>{{ request.user.username }}</strong></li>
+            <li class="list-group-item">Email: <strong>{{ request.user.email }}</strong></li>
+            <li class="list-group-item">Joined On: <strong>{{ request.user.date_joined|date:"Y-m-d" }}</strong></li>
+        </ul>
+    </div>
+
+    <div class="col-md-6">
+        {% if request.user.member %}
+            <ul class="list-group">
+                <li class="list-group-item text-success">✅ You are subscribed as a gym member.</li>
+            </ul>
+        {% else %}
+            <div class="alert alert-warning mt-3">
+                🚨 You are not yet subscribed to GymMaster. Please complete your membership registration to access workout and food plans.
+            </div>
+            <a href="{% url 'register_membership' %}" class="btn btn-primary mt-2">Subscribe Now</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

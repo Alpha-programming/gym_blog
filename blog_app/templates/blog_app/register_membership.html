@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Subscribe to Gym | GymMaster{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-3">🏋️ Subscribe as a Gym Member</h2>
+  <p>Fill in your phone number to activate your membership.</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Subscribe</button>
+    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+ <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">💪 Food Plan</h5>
+      <p class="card-text"><strong>Member:</strong> {{ food.member.user.get_full_name }}</p>
+      <p class="card-text"><strong>Date:</strong> {{ food.date }}</p>
+      <p class="card-text"><strong>Description:</strong><br>{{ food.description|linebreaks }}</p>
+    </div>
+
+    <div class="card-body text-end">
+      <a href="{% url 'foodlog_detail' food.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+    </div>
+ </div>
+
+
+

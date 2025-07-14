@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Attendance | GymMaster{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">🗓️ Attendance Tracker</h1>
+
+  {% if attendances %}
+    <div class="table-responsive">
+      <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Member</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Check-In Time</th>
+            <th>Check-Out Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for attendance in attendances %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ attendance.member.user.get_full_name }}</td>
+            <td>{{ attendance.date|date:"Y-m-d" }}</td>
+            <td>
+              {% if attendance.checked_in and attendance.checked_out %}
+                <span class="badge bg-success">Completed</span>
+              {% elif attendance.checked_in %}
+                <span class="badge bg-warning text-dark">In Progress</span>
+              {% else %}
+                <span class="badge bg-secondary">Not Checked In</span>
+              {% endif %}
+            </td>
+            <td>{{ attendance.check_in_time|default:"-" }}</td>
+            <td>{{ attendance.check_out_time|default:"-" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">No attendance records found.</p>
+  {% endif %}
+
+  <a href="{% url 'check_in' %}" class="btn btn-success mt-3">✔️ Check In</a>
+  <a href="{% url 'check_out' %}" class="btn btn-danger mt-3">❌ Check Out</a>
+</div>
+{% endblock %}

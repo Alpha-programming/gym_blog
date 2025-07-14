@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Charts | GymMaster{% endblock %}
+
+{% block content %}
+<h2>📊 Your Weekly Progress</h2>
+<canvas id="workoutChart"></canvas>
+
+<h2 class="mt-5">🍽️ Nutrition Overview</h2>
+<canvas id="nutritionChart"></canvas>
+
+<h2 class="mt-5">🗓️ Attendance Summary</h2>
+<canvas id="attendanceChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Example: Chart.js line chart for workouts
+  const ctx = document.getElementById('workoutChart');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ dates|safe }},
+      datasets: [{
+        label: 'Workout Duration (min)',
+        data: {{ durations|safe }},
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2
+      }]
+    }
+  });
+</script>
+{% endblock %}

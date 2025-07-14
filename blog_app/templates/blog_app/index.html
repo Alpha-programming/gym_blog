@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home | GymMaster{% endblock %}
+
+{% block content %}
+<section>
+    {% include './components/_slide.html' %}
+</section>
+
+<section class="container py-4">
+  <div class="row">
+    <!-- Food Plans column (left) -->
+    <div class="col-md-6">
+      <h2 class="mb-4">Today's Food Plans</h2>
+      {% if food_plans %}
+        <div class="row row-cols-1 g-4">
+          {% for food_plan in food_plans %}
+            <div class="col">
+              {% include "blog_app/components/_foodlog_card.html" with food=food_plan %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No food plans for today.</p>
+      {% endif %}
+    </div>
+
+    <!-- Workout Plans column (right) -->
+    <div class="col-md-6">
+      <h2 class="mb-4">Today's Workout Plans</h2>
+      {% if workouts %}
+        <div class="row row-cols-1 g-4">
+          {% for workout in workouts %}
+            <div class="col">
+              {% include "blog_app/components/_workout_card.html" with workout=workout %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No workouts planned for today.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section>
+    <h2 class="text-center mb-4">FAQ</h2>
+    {% include './components/_faq.html' %}
+</section>
+
+{% endblock %}

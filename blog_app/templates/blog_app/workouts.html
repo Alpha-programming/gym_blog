@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Workouts | GymMaster{% endblock %}
+
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">🏋️ Workout Plans</h1>
+
+  {% if workouts %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for workout in workouts %}
+        <div class="col">
+          {% include "blog_app/components/_workout_card.html" %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No workout plans available yet.</p>
+  {% endif %}
+  <a href="{% url 'create_workout_plan' %}" class="btn btn-primary mb-3">+ Create Workout Plan</a>
+
+</div>
+{% endblock %}

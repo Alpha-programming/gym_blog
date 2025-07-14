@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Food Log | GymMaster{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">🍽️ Food Logs</h1>
+
+  {% if food_plans %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for food in food_plans %}
+        <div class="col">
+          {% include "blog_app/components/_foodlog_card.html" %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No food logs available yet.</p>
+  {% endif %}
+
+  <a href="{% url 'create_foodlog' %}" class="btn btn-success mt-3">+ Add Food Log</a>
+</div>
+{% endblock %}

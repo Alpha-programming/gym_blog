@@ -1,0 +1,44 @@
+{% load static %}
+
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    {% for slide in slides %}
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}"
+      {% if forloop.first %}class="active"{% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}">
+    </button>
+    {% endfor %}
+  </div>
+
+  <!-- Slides -->
+  <div class="carousel-inner">
+    {% for slide in slides %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <img src="{{ slide.image.url }}" class="d-block w-100" alt="{{ slide.title }}" style="height:700px; object-fit:cover; object-position:center right;">
+      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-4 shadow-lg">
+        <h2 class="fw-bold text-uppercase">{{ slide.title }}</h2>
+        <p class="lead fst-italic">{{ slide.description }}</p>
+      </div>
+    </div>
+    {% empty %}
+    <div class="carousel-item active">
+      <img src="{% static 'images/default-slide.jpg' %}" class="d-block w-100" alt="Default Slide" style="height:700px; object-fit:cover;">
+      <div class="carousel-caption d-none d-md-block custom-caption">
+        <h2>Welcome to GymMaster</h2>
+        <p>Your fitness journey starts here!</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
